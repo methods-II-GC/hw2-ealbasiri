@@ -22,31 +22,43 @@ def main(args):
             yield lines
     corpus = list(read_tags(args.input_data))
 
+#shuflle the data
     random.shuffle(corpus)
-    random.seed(2010) 
+#Seeding 
+    random.seed(args.seed)
+
+#Slicing the training set and writing it into file 
     with open(args.train_path, "w") as sink1:
         train_set= corpus[:int(len(corpus)*0.80)]
         for listitem1 in train_set:
             for listitem2 in listitem1: 
-                str1 = ''.join(listitem2)
-                sink1.write('%s\n' % str1) 
+                str1 = ''.join(listitem2) #convert list into str 
+                sink1.write('%s\n' % str1) #write each word in one line 
 
+
+#Slicing the development set and writing it into file 
     with open(args.dev_path, "w") as sink2:
         dev_set= corpus[int(len(corpus)*0.80):int(len(corpus)*0.9)]
         for listitem1 in dev_set:
            for listitem2 in listitem1:
-               str2 = ''.join(listitem2)
-               sink2.write('%s\n' % str2)
-    
+               str2 = ''.join(listitem2) #convert list into str 
+               sink2.write('%s\n' % str2)  #write each word in one line 
+
+#Slicing the test set and writing it into file     
     with open(args.test_path, "w") as sink3:
         test_set= corpus[int(len(corpus)*0.9):] 
         for listitem1 in test_set:
            for listitem2 in listitem1:
-               str3 = ''.join(listitem2) 
-               sink3.write('%s\n' % str3)
+               str3 = ''.join(listitem2)  #convert list into str 
+               sink3.write('%s\n' % str3)  #write each word in one line 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--seed", required= True, 
+        help="seed number" 
+    )
     parser.add_argument(
         "input_data",
     )
